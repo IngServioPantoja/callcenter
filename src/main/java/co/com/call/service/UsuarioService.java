@@ -58,12 +58,12 @@ public class UsuarioService {
     return usuarioAsignar;
   }
 
-  public void agregarUsuario(final EmpleadoDto usuario) {
+  public void agregarEmpleado(final EmpleadoDto usuario) {
     usuario.conectar();
     lstUsuarios.add(usuario);
   }
 
-  public List<EmpleadoDto> obtenerUsuarios() {
+  public List<EmpleadoDto> obtenerEmpleados() {
     return new ArrayList<EmpleadoDto>(lstUsuarios);
   }
 

@@ -10,7 +10,7 @@ public class EmpleadoDto implements Runnable {
 
   private Long id;
 
-  private boolean running;
+  private boolean conectado;
 
   private boolean llamadaActiva;
 
@@ -28,13 +28,14 @@ public class EmpleadoDto implements Runnable {
     this.tipo = tipo;
     this.nombre = nombre;
     llamadaActiva = false;
+    conectado = true;
   }
 
   @Override
   public void run() {
-    while (running) {
+    while (conectado) {
       try {
-        Thread.sleep(5000L);
+        Thread.sleep(1000L);
         if (llamadaActiva) {
           final long tiempo = 1000 * llamada.getDuracion();
           System.out.println("Llamada en curso con duración " + tiempo + " con "
@@ -60,7 +61,7 @@ public class EmpleadoDto implements Runnable {
   }
 
   public void stop() {
-    running = false;
+    conectado = false;
   }
 
   public void conectar() {

@@ -16,6 +16,8 @@ public class CallCenter {
 
     try {
 
+      agregarEmpleados();
+
       LlamadaDto llamada = new LlamadaDto("Servio");
       Dispatcher.getInstance().dispatchCall(llamada);
 
@@ -44,16 +46,16 @@ public class CallCenter {
   private static void agregarEmpleados() {
 
     final EmpleadoDto usuario = new EmpleadoDto("Alejandro", TipoEmpleadoEnum.OPERADOR);
-    UsuarioService.getInstance().agregarUsuario(usuario);
+    UsuarioService.getInstance().agregarEmpleado(usuario);
 
     final EmpleadoDto usuarioCuatro = new EmpleadoDto("Moises", TipoEmpleadoEnum.OPERADOR);
-    UsuarioService.getInstance().agregarUsuario(usuarioCuatro);
+    UsuarioService.getInstance().agregarEmpleado(usuarioCuatro);
 
     final EmpleadoDto usuarioTres = new EmpleadoDto("Nidia", TipoEmpleadoEnum.SUPERVISOR);
-    UsuarioService.getInstance().agregarUsuario(usuarioTres);
+    UsuarioService.getInstance().agregarEmpleado(usuarioTres);
 
     final EmpleadoDto usuarioDos = new EmpleadoDto("Alberto", TipoEmpleadoEnum.DIRECTOR);
-    UsuarioService.getInstance().agregarUsuario(usuarioDos);
+    UsuarioService.getInstance().agregarEmpleado(usuarioDos);
   }
 
 }

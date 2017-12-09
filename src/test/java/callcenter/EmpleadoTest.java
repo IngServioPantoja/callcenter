@@ -12,25 +12,24 @@ public class EmpleadoTest {
   @Test
   public void agregarEmpleado() {
     final EmpleadoDto usuario = new EmpleadoDto("Alejandro", TipoEmpleadoEnum.OPERADOR);
-    UsuarioService.getInstance().agregarUsuario(usuario);
+    UsuarioService.getInstance().agregarEmpleado(usuario);
   }
 
   @Test
   public void contarEmpleados() {
-    UsuarioService.getInstance().obtenerUsuarios();
+    UsuarioService.getInstance().obtenerEmpleados();
   }
-
 
   @Test
   public void crearYContarEmpleados() {
-    List<EmpleadoDto> lstUsuario = UsuarioService.getInstance().obtenerUsuarios();
+    List<EmpleadoDto> lstUsuario = UsuarioService.getInstance().obtenerEmpleados();
     final int cantiadInicial = lstUsuario.size();
     System.out.println("Cantidad inicial de usuarios " + cantiadInicial);
 
     final EmpleadoDto empleado = new EmpleadoDto("Alejandro", TipoEmpleadoEnum.OPERADOR);
-    UsuarioService.getInstance().agregarUsuario(empleado);
+    UsuarioService.getInstance().agregarEmpleado(empleado);
 
-    lstUsuario = UsuarioService.getInstance().obtenerUsuarios();
+    lstUsuario = UsuarioService.getInstance().obtenerEmpleados();
     final int cantidadFinal = lstUsuario.size();
 
     System.out.println("Cantidad final de usuarios " + cantidadFinal);
@@ -41,11 +40,11 @@ public class EmpleadoTest {
   public void verificarPrioridadAsignacion() throws Exception {
 
     final EmpleadoDto operador = new EmpleadoDto("Maria", TipoEmpleadoEnum.OPERADOR);
-    UsuarioService.getInstance().agregarUsuario(operador);
+    UsuarioService.getInstance().agregarEmpleado(operador);
     final EmpleadoDto director = new EmpleadoDto("Alejandra", TipoEmpleadoEnum.DIRECTOR);
-    UsuarioService.getInstance().agregarUsuario(director);
+    UsuarioService.getInstance().agregarEmpleado(director);
     final EmpleadoDto supervisor = new EmpleadoDto("Miguel", TipoEmpleadoEnum.SUPERVISOR);
-    UsuarioService.getInstance().agregarUsuario(supervisor);
+    UsuarioService.getInstance().agregarEmpleado(supervisor);
 
     final EmpleadoDto disponible = UsuarioService.getInstance().buscarUsuarioDisponible();
     System.out.println("Tipo disponible " + disponible.getTipo());

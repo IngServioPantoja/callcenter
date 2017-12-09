@@ -10,7 +10,7 @@ public class LlamadaService implements Serializable {
 
   private static LlamadaService instance;
 
-  private final LinkedBlockingQueue<LlamadaDto> lstLlamadas;
+  private LinkedBlockingQueue<LlamadaDto> lstLlamadas;
   private Long cantidadLlamadas;
 
   private LlamadaService() {
@@ -27,11 +27,11 @@ public class LlamadaService implements Serializable {
   }
 
   public void aumentarLlamada() {
-    cantidadLlamadas = getInstance().cantidadLlamadas + 1;
+    cantidadLlamadas = cantidadLlamadas + 1;
   }
 
   public void disminuirLlamada() {
-    cantidadLlamadas = getInstance().cantidadLlamadas - 1;
+    cantidadLlamadas = cantidadLlamadas - 1;
   }
 
   public Long cantidadLlamadas() {
@@ -43,4 +43,15 @@ public class LlamadaService implements Serializable {
     return lstLlamadas.size();
   }
 
+  public Integer contarLlamdasEncoladas() {
+    return lstLlamadas.size();
+  }
+
+  public void limpiarLlamadasEncoladas() {
+    lstLlamadas = new LinkedBlockingQueue<LlamadaDto>();
+  };
+
+  public void limpiarLlamadasConcurrentes() {
+    cantidadLlamadas = 0L;
+  };
 }

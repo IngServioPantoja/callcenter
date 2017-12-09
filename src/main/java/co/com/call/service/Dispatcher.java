@@ -23,13 +23,21 @@ public class Dispatcher implements Serializable {
     final Long cantidadLlamadas = LlamadaService.getInstance().cantidadLlamadas();
     if (cantidadLlamadas < 10) {
       System.out.println("La llamada de " + llamada.getCliente() + " está siendo asignada");
-      final EmpleadoDto usuario = UsuarioService.getInstance().buscarUsuarioDisponible();
-      usuario.setLlamada(llamada);
-      usuario.iniciarLlamada();
-      LlamadaService.getInstance().aumentarLlamada();
+      final EmpleadoDto empleado = UsuarioService.getInstance().buscarUsuarioDisponible();
+      if (empleado != null) {
+        empleado.setLlamada(llamada);
+        empleado.iniciarLlamada();
+        LlamadaService.getInstance().aumentarLlamada();
+        System.out.println("La llamada fue correctamente asignada cliente " + llamada.getCliente()
+            + " empleado " + empleado.getNombre());
+      } else {
+        final Integer posicion = LlamadaService.getInstance().encolarLlamada(llamada);
+        System.out.println(
+            "Operadores no disponibles la llamada fue encolada en la posicion " + posicion);
+      }
     } else {
       final Integer posicion = LlamadaService.getInstance().encolarLlamada(llamada);
-      System.out.println("Operadores ocupados la llamda fue encolada en la posicion " + posicion);
+      System.out.println("Operadores ocupados la llamada fue encolada en la posicion " + posicion);
     }
   }
 
