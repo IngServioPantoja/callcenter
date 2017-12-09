@@ -1,9 +1,11 @@
 package co.com.call.dto;
 
-import callcenter.EstadosEnum;
+import java.util.Date;
+import co.com.call.enums.EstadosEnum;
+import co.com.call.enums.TipoEmpleadoEnum;
 import co.com.call.service.LlamadaService;
 
-public class UsuarioDto implements Runnable {
+public class EmpleadoDto implements Runnable {
   // ------------------------------ FIELDS ------------------------------
 
   private Long id;
@@ -12,20 +14,19 @@ public class UsuarioDto implements Runnable {
 
   private boolean llamadaActiva;
 
-  private EstadosEnum status;
+  private EstadosEnum estado;
 
-  private String tipo;
+  private TipoEmpleadoEnum tipo;
 
-  private String usuario;
+  private String nombre;
 
   private LlamadaDto llamada;
 
-  // --------------------------- CONSTRUCTORS ---------------------------
-
-  public UsuarioDto(final Long id) {
-    this.id = id;
-    status = EstadosEnum.LIBRE;
-    tipo = "ESCLAVO";
+  public EmpleadoDto(final String nombre, final TipoEmpleadoEnum tipo) {
+    id = new Date().getTime();
+    estado = EstadosEnum.LIBRE;
+    this.tipo = tipo;
+    this.nombre = nombre;
     llamadaActiva = false;
   }
 
@@ -37,13 +38,13 @@ public class UsuarioDto implements Runnable {
         if (llamadaActiva) {
           final long tiempo = 1000 * llamada.getDuracion();
           System.out.println("Llamada en curso con duración " + tiempo + " con "
-              + llamada.getCliente() + " atendido por " + tipo + " " + usuario);
+              + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
           Thread.sleep(tiempo);
-          LlamadaService.disminuirLlamada();
+          LlamadaService.getInstance().disminuirLlamada();
           llamadaActiva = false;
-          setStatus(EstadosEnum.LIBRE);
+          estado = EstadosEnum.LIBRE;
           System.out.println("Llamada terminada con duración " + tiempo + " con "
-              + llamada.getCliente() + " atendido por " + tipo + " " + usuario);
+              + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
         }
       } catch (final InterruptedException e) {
         // TODO Auto-generated catch block
@@ -54,17 +55,18 @@ public class UsuarioDto implements Runnable {
 
   // -------------------------- OTHER METHODS --------------------------
 
-  public void start() {
-    running = true;
-    new Thread(this).start();
-  }
-
   public void iniciarLlamada() {
     llamadaActiva = true;
   }
 
   public void stop() {
     running = false;
+  }
+
+  public void conectar() {
+    new Thread(this).start();
+    System.out
+        .println("Empleado " + tipo + " " + nombre + " ha ingresado en el sistema de atencion ");
   }
 
   public Long getId() {
@@ -75,20 +77,20 @@ public class UsuarioDto implements Runnable {
     this.id = id;
   }
 
-  public String getTipo() {
+  public TipoEmpleadoEnum getTipo() {
     return tipo;
   }
 
-  public void setTipo(final String tipo) {
+  public void setTipo(final TipoEmpleadoEnum tipo) {
     this.tipo = tipo;
   }
 
-  public EstadosEnum getStatus() {
-    return status;
+  public EstadosEnum getEstado() {
+    return estado;
   }
 
-  public void setStatus(final EstadosEnum status) {
-    this.status = status;
+  public void setEstado(final EstadosEnum estado) {
+    this.estado = estado;
   }
 
   public LlamadaDto getLlamada() {
@@ -99,12 +101,12 @@ public class UsuarioDto implements Runnable {
     this.llamada = llamada;
   }
 
-  public String getUsuario() {
-    return usuario;
+  public String getNombre() {
+    return nombre;
   }
 
-  public void setUsuario(final String usuario) {
-    this.usuario = usuario;
+  public void setNombre(final String usuario) {
+    nombre = usuario;
   }
 
 }

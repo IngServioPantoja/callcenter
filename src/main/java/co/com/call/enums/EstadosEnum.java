@@ -1,4 +1,4 @@
-package callcenter;
+package co.com.call.enums;
 
 public enum EstadosEnum
 {

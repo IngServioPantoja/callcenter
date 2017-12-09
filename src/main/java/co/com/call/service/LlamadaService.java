@@ -26,16 +26,21 @@ public class LlamadaService implements Serializable {
     return instance;
   }
 
-  public static void aumentarLlamada() {
-    getInstance().cantidadLlamadas = getInstance().cantidadLlamadas + 1;
+  public void aumentarLlamada() {
+    cantidadLlamadas = getInstance().cantidadLlamadas + 1;
   }
 
-  public static void disminuirLlamada() {
-    getInstance().cantidadLlamadas = getInstance().cantidadLlamadas - 1;
+  public void disminuirLlamada() {
+    cantidadLlamadas = getInstance().cantidadLlamadas - 1;
   }
 
-  public static Long cantidadLlamadas() {
-    return getInstance().cantidadLlamadas;
+  public Long cantidadLlamadas() {
+    return cantidadLlamadas;
+  }
+
+  public Integer encolarLlamada(final LlamadaDto llamada) throws InterruptedException {
+    lstLlamadas.put(llamada);
+    return lstLlamadas.size();
   }
 
 }
