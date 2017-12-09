@@ -1,6 +1,11 @@
 package co.com.call.enums;
 
-public enum EstadosEnum
-{
-    LIBRE, LLAMADA
+/**
+ * Define estados para empleados
+ * 
+ * @author ServioAndres
+ *
+ */
+public enum EstadosEnum {
+  LIBRE, LLAMADA
 }

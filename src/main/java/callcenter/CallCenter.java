@@ -8,6 +8,12 @@ import co.com.call.service.Dispatcher;
 import co.com.call.service.EmpleadoService;
 import co.com.call.service.LlamadaQueueConsumer;
 
+/**
+ * Administra el cal center e inicializa las dependencias necesarias
+ * 
+ * @author ServioAndres
+ *
+ */
 public class CallCenter {
 
   public CallCenter() {
@@ -17,13 +23,20 @@ public class CallCenter {
   public static void main(final String[] args) {
     try {
       final CallCenter callCenter = new CallCenter();
-      callCenter.agregarEmpleados(1);
-      callCenter.generarLlamadas(10, 1);
+      callCenter.agregarEmpleados(5);
+      callCenter.generarLlamadas(15, 1);
     } catch (final Exception e) {
       System.out.println("Excepcion al montar call center");
     }
   }
 
+  /**
+   * Genera llamadas
+   * 
+   * @param cantidad Numero de llamadas a generar
+   * @param segundos Tiempo en segundos entre cada llamada generada
+   * @throws Exception
+   */
   public void generarLlamadas(final Integer cantidad, final Integer segundos) throws Exception {
     Integer contador = 1;
     while (contador <= cantidad) {
@@ -33,9 +46,13 @@ public class CallCenter {
       Dispatcher.getInstance().dispatchCall(llamada);
       contador++;
     }
-
   }
 
+  /**
+   * Genera empleados para el call center
+   * 
+   * @param cantidad Numero de empleados a generar
+   */
   public void agregarEmpleados(final Integer cantidad) {
     Integer contador = 1;
     while (contador <= cantidad) {

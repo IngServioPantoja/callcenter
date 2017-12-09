@@ -5,13 +5,17 @@ import co.com.call.enums.EstadosEnum;
 import co.com.call.enums.TipoEmpleadoEnum;
 import co.com.call.service.LlamadaService;
 
+/**
+ * Dto que contiene la informacion del empleado y gestiona la llamada generada
+ * 
+ * @author ServioAndres
+ *
+ */
 public class EmpleadoDto implements Runnable {
 
   private Long id;
 
   private boolean conectado;
-
-  private boolean llamadaActiva;
 
   private EstadosEnum estado;
 
@@ -26,15 +30,17 @@ public class EmpleadoDto implements Runnable {
     estado = EstadosEnum.LIBRE;
     this.tipo = tipo;
     this.nombre = nombre;
-    llamadaActiva = false;
     conectado = true;
   }
 
+  /**
+   * Hilo encargado de atender la llamada asignada al empleado
+   */
   @Override
   public void run() {
     while (conectado) {
       try {
-        if (llamadaActiva) {
+        if (estado.equals(EstadosEnum.LLAMADA)) {
           final long tiempo = 1000 * llamada.getDuracion();
           System.out
               .println("Llamada en curso con duración " + tiempo + " con " + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
@@ -42,7 +48,6 @@ public class EmpleadoDto implements Runnable {
           System.out.println(
               "Llamada terminada con duración " + tiempo + " con " + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
           LlamadaService.getInstance().disminuirLlamada();
-          llamadaActiva = false;
           estado = EstadosEnum.LIBRE;
         }
         Thread.sleep(1000L);
@@ -52,15 +57,23 @@ public class EmpleadoDto implements Runnable {
     }
   }
 
-
+  /**
+   * Activa la bandera e inicia la llamada
+   */
   public void iniciarLlamada() {
-    llamadaActiva = true;
+    estado = EstadosEnum.LLAMADA;
   }
 
+  /**
+   * Desconecta al empleado del callcenter
+   */
   public void stop() {
     conectado = false;
   }
 
+  /**
+   * Conecta al empleado al sistema de llamadas para que sean respondidas
+   */
   public void conectar() {
     new Thread(this).start();
     System.out.println("Empleado " + tipo + " " + nombre + " ha ingresado en el sistema de atencion ");

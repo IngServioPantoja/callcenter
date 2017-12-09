@@ -3,6 +3,12 @@ package co.com.call.dto;
 import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Dto para llamadas
+ * 
+ * @author ServioAndres
+ *
+ */
 public class LlamadaDto implements Serializable {
 
   private static final long serialVersionUID = 1L;

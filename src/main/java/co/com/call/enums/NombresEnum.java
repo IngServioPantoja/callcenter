@@ -2,6 +2,12 @@ package co.com.call.enums;
 
 import java.util.Random;
 
+/**
+ * Nombres para empleados y clientes
+ * 
+ * @author ServioAndres
+ *
+ */
 public enum NombresEnum {
   LUIS, 
   ANTONIO, 
@@ -35,7 +41,11 @@ public enum NombresEnum {
   NANCY,
   ALEJANDRA,
   KATHERINE;
-
+  
+  /**
+   * Busca un nombre de forma aleatoria
+   * @return NombresEnum
+   */
   public static NombresEnum aleatorio() {
     final Random random = new Random();
     return values()[random.nextInt(values().length)];
