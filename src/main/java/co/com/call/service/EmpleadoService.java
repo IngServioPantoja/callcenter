@@ -7,26 +7,26 @@ import co.com.call.dto.EmpleadoDto;
 import co.com.call.enums.EstadosEnum;
 import co.com.call.enums.TipoEmpleadoEnum;
 
-public class UsuarioService {
+public class EmpleadoService {
 
-  private static UsuarioService instance;
+  private static EmpleadoService instance;
 
-  private final List<EmpleadoDto> lstUsuarios;
+  private List<EmpleadoDto> lstEmpleados;
 
-  private UsuarioService() {
-    lstUsuarios = Collections.synchronizedList(new ArrayList<EmpleadoDto>());
+  private EmpleadoService() {
+    lstEmpleados = Collections.synchronizedList(new ArrayList<EmpleadoDto>());
   }
 
-  public static UsuarioService getInstance() {
+  public static EmpleadoService getInstance() {
     if (instance == null) {
-      instance = new UsuarioService();
+      instance = new EmpleadoService();
     }
     return instance;
   }
 
   public EmpleadoDto buscarUsuarioDisponible() throws Exception {
     EmpleadoDto usuarioAsignar = null;
-    for (final EmpleadoDto usuarioDto : lstUsuarios) {
+    for (final EmpleadoDto usuarioDto : lstEmpleados) {
       if (usuarioDto.getTipo().equals(TipoEmpleadoEnum.OPERADOR)
           && usuarioDto.getEstado().equals(EstadosEnum.LIBRE)) {
         usuarioDto.setEstado(EstadosEnum.LLAMADA);
@@ -35,7 +35,7 @@ public class UsuarioService {
       }
     }
     if (usuarioAsignar == null) {
-      for (final EmpleadoDto usuarioDto : lstUsuarios) {
+      for (final EmpleadoDto usuarioDto : lstEmpleados) {
         if (usuarioDto.getTipo().equals(TipoEmpleadoEnum.SUPERVISOR)
             && usuarioDto.getEstado().equals(EstadosEnum.LIBRE)) {
           usuarioDto.setEstado(EstadosEnum.LLAMADA);
@@ -45,7 +45,7 @@ public class UsuarioService {
       }
     }
     if (usuarioAsignar == null) {
-      for (final EmpleadoDto usuarioDto : lstUsuarios) {
+      for (final EmpleadoDto usuarioDto : lstEmpleados) {
         if (usuarioDto.getTipo().equals(TipoEmpleadoEnum.DIRECTOR)
             && usuarioDto.getEstado().equals(EstadosEnum.LIBRE)) {
           usuarioDto.setEstado(EstadosEnum.LLAMADA);
@@ -60,11 +60,18 @@ public class UsuarioService {
 
   public void agregarEmpleado(final EmpleadoDto usuario) {
     usuario.conectar();
-    lstUsuarios.add(usuario);
+    lstEmpleados.add(usuario);
   }
 
   public List<EmpleadoDto> obtenerEmpleados() {
-    return new ArrayList<EmpleadoDto>(lstUsuarios);
+    return new ArrayList<EmpleadoDto>(lstEmpleados);
+  }
+
+  public void desconectarEmpleados() {
+    for (final EmpleadoDto empleadoDto : lstEmpleados) {
+      empleadoDto.stop();
+    }
+    lstEmpleados = new ArrayList<EmpleadoDto>();
   }
 
 }

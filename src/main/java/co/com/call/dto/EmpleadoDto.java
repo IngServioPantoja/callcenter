@@ -6,7 +6,6 @@ import co.com.call.enums.TipoEmpleadoEnum;
 import co.com.call.service.LlamadaService;
 
 public class EmpleadoDto implements Runnable {
-  // ------------------------------ FIELDS ------------------------------
 
   private Long id;
 
@@ -35,26 +34,24 @@ public class EmpleadoDto implements Runnable {
   public void run() {
     while (conectado) {
       try {
-        Thread.sleep(1000L);
         if (llamadaActiva) {
           final long tiempo = 1000 * llamada.getDuracion();
-          System.out.println("Llamada en curso con duración " + tiempo + " con "
-              + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
+          System.out
+              .println("Llamada en curso con duración " + tiempo + " con " + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
           Thread.sleep(tiempo);
+          System.out.println(
+              "Llamada terminada con duración " + tiempo + " con " + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
           LlamadaService.getInstance().disminuirLlamada();
           llamadaActiva = false;
           estado = EstadosEnum.LIBRE;
-          System.out.println("Llamada terminada con duración " + tiempo + " con "
-              + llamada.getCliente() + " atendido por " + tipo + " " + nombre);
         }
+        Thread.sleep(1000L);
       } catch (final InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        System.out.println("Error al generar empleado");
       }
     }
   }
 
-  // -------------------------- OTHER METHODS --------------------------
 
   public void iniciarLlamada() {
     llamadaActiva = true;
@@ -66,8 +63,7 @@ public class EmpleadoDto implements Runnable {
 
   public void conectar() {
     new Thread(this).start();
-    System.out
-        .println("Empleado " + tipo + " " + nombre + " ha ingresado en el sistema de atencion ");
+    System.out.println("Empleado " + tipo + " " + nombre + " ha ingresado en el sistema de atencion ");
   }
 
   public Long getId() {

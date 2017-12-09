@@ -2,60 +2,49 @@ package callcenter;
 
 import co.com.call.dto.EmpleadoDto;
 import co.com.call.dto.LlamadaDto;
+import co.com.call.enums.NombresEnum;
 import co.com.call.enums.TipoEmpleadoEnum;
 import co.com.call.service.Dispatcher;
-import co.com.call.service.UsuarioService;
+import co.com.call.service.EmpleadoService;
+import co.com.call.service.LlamadaQueueConsumer;
 
 public class CallCenter {
 
   public CallCenter() {
-    System.out.println("Call center inicializado");
+    LlamadaQueueConsumer.getInstance().escuchar();
   }
 
   public static void main(final String[] args) {
-
     try {
-
-      agregarEmpleados();
-
-      LlamadaDto llamada = new LlamadaDto("Servio");
-      Dispatcher.getInstance().dispatchCall(llamada);
-
-      llamada = new LlamadaDto("Andres");
-      Dispatcher.getInstance().dispatchCall(llamada);
-
-      llamada = new LlamadaDto("Corson");
-      Dispatcher.getInstance().dispatchCall(llamada);
-
-      llamada = new LlamadaDto("Camila");
-      Dispatcher.getInstance().dispatchCall(llamada);
-
-      llamada = new LlamadaDto("Melida");
-      Dispatcher.getInstance().dispatchCall(llamada);
-
-      llamada = new LlamadaDto("Mauricio");
-      Dispatcher.getInstance().dispatchCall(llamada);
-
+      final CallCenter callCenter = new CallCenter();
+      callCenter.agregarEmpleados(1);
+      callCenter.generarLlamadas(10, 1);
     } catch (final Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.out.println("Excepcion al montar call center");
+    }
+  }
+
+  public void generarLlamadas(final Integer cantidad, final Integer segundos) throws Exception {
+    Integer contador = 1;
+    while (contador <= cantidad) {
+      Thread.sleep(segundos * 1000L);
+      System.out.println("_______________________________________________________________________________________");
+      final LlamadaDto llamada = new LlamadaDto(NombresEnum.aleatorio().toString());
+      Dispatcher.getInstance().dispatchCall(llamada);
+      contador++;
     }
 
   }
 
-  private static void agregarEmpleados() {
-
-    final EmpleadoDto usuario = new EmpleadoDto("Alejandro", TipoEmpleadoEnum.OPERADOR);
-    UsuarioService.getInstance().agregarEmpleado(usuario);
-
-    final EmpleadoDto usuarioCuatro = new EmpleadoDto("Moises", TipoEmpleadoEnum.OPERADOR);
-    UsuarioService.getInstance().agregarEmpleado(usuarioCuatro);
-
-    final EmpleadoDto usuarioTres = new EmpleadoDto("Nidia", TipoEmpleadoEnum.SUPERVISOR);
-    UsuarioService.getInstance().agregarEmpleado(usuarioTres);
-
-    final EmpleadoDto usuarioDos = new EmpleadoDto("Alberto", TipoEmpleadoEnum.DIRECTOR);
-    UsuarioService.getInstance().agregarEmpleado(usuarioDos);
+  public void agregarEmpleados(final Integer cantidad) {
+    Integer contador = 1;
+    while (contador <= cantidad) {
+      final String nombre = NombresEnum.aleatorio().toString();
+      final TipoEmpleadoEnum tipoEmpleado = TipoEmpleadoEnum.aleatorio();
+      final EmpleadoDto usuario = new EmpleadoDto(nombre, tipoEmpleado);
+      EmpleadoService.getInstance().agregarEmpleado(usuario);
+      contador++;
+    }
   }
 
 }

@@ -43,7 +43,7 @@ public class LlamadaService implements Serializable {
     return lstLlamadas.size();
   }
 
-  public Integer contarLlamdasEncoladas() {
+  public Integer contarLlamadasEncoladas() {
     return lstLlamadas.size();
   }
 
@@ -54,4 +54,9 @@ public class LlamadaService implements Serializable {
   public void limpiarLlamadasConcurrentes() {
     cantidadLlamadas = 0L;
   };
+
+  public LlamadaDto obtenerLlamada() {
+    return lstLlamadas.poll();
+  }
+
 }

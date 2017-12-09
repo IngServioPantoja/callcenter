@@ -13,7 +13,7 @@ public class LlamadaDto implements Serializable {
   public LlamadaDto(final String cliente) {
     this.cliente = cliente;
     duracion = (long) ThreadLocalRandom.current().nextInt(5, 10 + 1);
-    System.out.println("Duración de la llamada: " + duracion);
+    System.out.println("Nueva llamda " + cliente + " duración de la llamada: " + duracion + "s");
   }
 
   public Long getDuracion() {
